@@ -1,0 +1,132 @@
+[
+ {
+  "id": "gancho",
+  "frases": [
+   {
+    "f": "F00",
+    "leg": "Trocar de carro",
+    "frames": 33
+   },
+   {
+    "f": "F01",
+    "leg": "não precisa ser dor de cabeça.",
+    "frames": 56
+   }
+  ]
+ },
+ {
+  "id": "dor",
+  "frases": [
+   {
+    "f": "F02",
+    "leg": "Carro sem procedência,",
+    "frames": 45
+   },
+   {
+    "f": "F03",
+    "leg": "vendedor que some depois da venda...",
+    "frames": 62
+   }
+  ]
+ },
+ {
+  "id": "marca",
+  "frases": [
+   {
+    "f": "F04",
+    "leg": "Na Eduardo Veículos, em Montenegro,",
+    "frames": 59
+   },
+   {
+    "f": "F05",
+    "leg": "cada carro é selecionado",
+    "frames": 49
+   },
+   {
+    "f": "F06",
+    "leg": "e sai com garantia.",
+    "frames": 42
+   }
+  ]
+ },
+ {
+  "id": "estoque",
+  "frases": [
+   {
+    "f": "F07",
+    "leg": "Tem opção pra todo bolso:",
+    "frames": 49
+   },
+   {
+    "f": "F08",
+    "leg": "de R$ 15 mil a R$ 160 mil.",
+    "frames": 73
+   }
+  ]
+ },
+ {
+  "id": "pagamento",
+  "frases": [
+   {
+    "f": "F09",
+    "leg": "Financiamento,",
+    "frames": 32
+   },
+   {
+    "f": "F10",
+    "leg": "cartão de crédito,",
+    "frames": 40
+   },
+   {
+    "f": "F11",
+    "leg": "e o seu usado entra na troca.",
+    "frames": 52
+   }
+  ]
+ },
+ {
+  "id": "prova",
+  "frases": [
+   {
+    "f": "F12",
+    "leg": "Seja mais um cliente satisfeito.",
+    "frames": 65
+   }
+  ]
+ },
+ {
+  "id": "cta",
+  "frases": [
+   {
+    "f": "F13",
+    "leg": "Chama no direct,",
+    "frames": 34
+   },
+   {
+    "f": "F14",
+    "leg": "ou vem conhecer a loja:",
+    "frames": 46
+   },
+   {
+    "f": "F15",
+    "leg": "entre o SESI e a assistência.",
+    "frames": 52
+   }
+  ]
+ },
+ {
+  "id": "fim",
+  "frases": [
+   {
+    "f": "F16",
+    "leg": "Eduardo Veículos.",
+    "frames": 36
+   },
+   {
+    "f": "F17",
+    "leg": "O seu próximo carro está aqui.",
+    "frames": 53
+   }
+  ]
+ }
+]

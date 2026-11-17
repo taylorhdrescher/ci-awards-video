@@ -1,0 +1,138 @@
+{
+ "total": 2095,
+ "linhas": [
+  {
+   "cena": "abre1",
+   "texto": "Melhoria contínua não é um projeto.",
+   "from": 18,
+   "voz": 61,
+   "dur": 68
+  },
+  {
+   "cena": "abre2",
+   "texto": "É um jeito de trabalhar.",
+   "from": 86,
+   "voz": 47,
+   "dur": 53
+  },
+  {
+   "cena": "busca",
+   "texto": "E em Montenegro, esse jeito tem nome.",
+   "from": 139,
+   "voz": 66,
+   "dur": 72
+  },
+  {
+   "cena": "logo",
+   "texto": "Cê í duzentos.",
+   "from": 212,
+   "voz": 41,
+   "dur": 65
+  },
+  {
+   "cena": "presente",
+   "texto": "A gente está presente.",
+   "from": 277,
+   "voz": 46,
+   "dur": 52
+  },
+  {
+   "cena": "tela",
+   "texto": "No Gemba. Na gestão diária. Ao lado de cada time.",
+   "from": 330,
+   "voz": 87,
+   "dur": 94
+  },
+  {
+   "cena": "educa",
+   "texto": "A gente educa, com o pensamento A3 e o Ver e Agir.",
+   "from": 423,
+   "voz": 91,
+   "dur": 97
+  },
+  {
+   "cena": "inclui",
+   "texto": "E inclui todo mundo, em todas as áreas.",
+   "from": 521,
+   "voz": 73,
+   "dur": 79
+  },
+  {
+   "cena": "pergunta",
+   "texto": "E o resultado disso, no ano fiscal vinte e seis?",
+   "from": 600,
+   "voz": 84,
+   "dur": 91
+  },
+  {
+   "cena": "num1",
+   "texto": "Seis mil e sessenta e seis projetos concluídos.",
+   "from": 691,
+   "voz": 83,
+   "dur": 102
+  },
+  {
+   "cena": "num2",
+   "texto": "E mais dois mil, novecentos e setenta e oito em andamento.",
+   "from": 793,
+   "voz": 104,
+   "dur": 120
+  },
+  {
+   "cena": "widgets",
+   "texto": "Quinhentos e oitenta mil minutos de produtividade. Três milhões de reais em custos. E cinco mil, setecentos e dezesseis pontos de RPN em segurança.",
+   "from": 912,
+   "voz": 268,
+   "dur": 275
+  },
+  {
+   "cena": "virada",
+   "texto": "Mas nenhum número acontece sozinho.",
+   "from": 1187,
+   "voz": 63,
+   "dur": 70
+  },
+  {
+   "cena": "trimestre",
+   "texto": "A cada trimestre, os destaques de A3 e de Ver e Agir são reconhecidos.",
+   "from": 1257,
+   "voz": 126,
+   "dur": 133
+  },
+  {
+   "cena": "eventos",
+   "texto": "E nas feiras e eventos, a melhoria contínua aparece para todo mundo.",
+   "from": 1390,
+   "voz": 115,
+   "dur": 122
+  },
+  {
+   "cena": "palavras",
+   "texto": "Melhorar. Avançar. Reconhecer. Celebrar.",
+   "from": 1511,
+   "voz": 66,
+   "dur": 91
+  },
+  {
+   "cena": "mentor",
+   "texto": "E para fechar, a palavra do nosso mentor, Mércio Ruiz.",
+   "from": 1602,
+   "voz": 92,
+   "dur": 233
+  },
+  {
+   "cena": "pessoas",
+   "texto": "Porque melhoria contínua é feita de pessoas.",
+   "from": 1836,
+   "voz": 78,
+   "dur": 84
+  },
+  {
+   "cena": "final",
+   "texto": "Isso é o CI Awards.",
+   "from": 1920,
+   "voz": 48,
+   "dur": 160
+  }
+ ]
+}

@@ -1,0 +1,102 @@
+[
+ {
+  "id": "gancho",
+  "frases": [
+   {
+    "f": "E00",
+    "leg": "Procurando o seu próximo carro?",
+    "frames": 54
+   }
+  ]
+ },
+ {
+  "id": "dor",
+  "frases": [
+   {
+    "f": "E01",
+    "leg": "Chega de anúncio duvidoso",
+    "frames": 48
+   },
+   {
+    "f": "E02",
+    "leg": "e carro sem procedência.",
+    "frames": 49
+   }
+  ]
+ },
+ {
+  "id": "marca",
+  "frases": [
+   {
+    "f": "E03",
+    "leg": "Na Eduardo Veículos, em Montenegro,",
+    "frames": 59
+   }
+  ]
+ },
+ {
+  "id": "estoque",
+  "frases": [
+   {
+    "f": "E04",
+    "leg": "você encontra estoque selecionado",
+    "frames": 60
+   },
+   {
+    "f": "E05",
+    "leg": "e com garantia.",
+    "frames": 34
+   }
+  ]
+ },
+ {
+  "id": "pagamento",
+  "frases": [
+   {
+    "f": "E06",
+    "leg": "Financiamento facilitado",
+    "frames": 46
+   },
+   {
+    "f": "E07",
+    "leg": "e pagamento no cartão de crédito.",
+    "frames": 64
+   }
+  ]
+ },
+ {
+  "id": "troca",
+  "frases": [
+   {
+    "f": "E08",
+    "leg": "Compro. Vendo. Troco.",
+    "frames": 40
+   }
+  ]
+ },
+ {
+  "id": "loja",
+  "frases": [
+   {
+    "f": "E09",
+    "leg": "Venha conhecer a loja:",
+    "frames": 43
+   },
+   {
+    "f": "E10",
+    "leg": "entre o SESI e a assistência.",
+    "frames": 52
+   }
+  ]
+ },
+ {
+  "id": "fim",
+  "frases": [
+   {
+    "f": "E11",
+    "leg": "O seu próximo carro está aqui.",
+    "frames": 53
+   }
+  ]
+ }
+]

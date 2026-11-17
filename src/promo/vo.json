@@ -1,0 +1,56 @@
+[
+ {
+  "id": "gancho",
+  "f": "P00",
+  "leg": "Sua empresa ainda posta vídeo assim?",
+  "voz": 61
+ },
+ {
+  "id": "feed",
+  "f": "P01",
+  "leg": "Enquanto isso, quem usa motion design faz as pessoas pararem de rolar o feed.",
+  "voz": 119
+ },
+ {
+  "id": "vende",
+  "f": "P02",
+  "leg": "Motion design explica, prende e vende.",
+  "voz": 68
+ },
+ {
+  "id": "exemplos",
+  "f": "P03",
+  "leg": "Seu produto, seu serviço ou os resultados da sua empresa, contados em poucos segundos.",
+  "voz": 145
+ },
+ {
+  "id": "recursos",
+  "f": "P04",
+  "leg": "Com legendas dinâmicas, efeitos sonoros e narração. Pronto para reels e anúncios.",
+  "voz": 138
+ },
+ {
+  "id": "caro",
+  "f": "P05",
+  "leg": "E o melhor: você não precisa pagar caro por isso.",
+  "voz": 75
+ },
+ {
+  "id": "preco",
+  "f": "P06",
+  "leg": "Criativos a partir de R$ 297.",
+  "voz": 99
+ },
+ {
+  "id": "entrega",
+  "f": "P07",
+  "leg": "Do roteiro ao vídeo pronto, com entrega rápida.",
+  "voz": 76
+ },
+ {
+  "id": "cta",
+  "f": "P08",
+  "leg": "Chama no direct e peça o seu.",
+  "voz": 48
+ }
+]

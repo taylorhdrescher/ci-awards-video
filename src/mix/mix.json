@@ -1,0 +1,341 @@
+{
+ "total": 3171,
+ "seg": [
+  {
+   "id": "intro",
+   "cena": "intro",
+   "dur": 316,
+   "tr": "cut",
+   "vo": [],
+   "from": 0
+  },
+  {
+   "id": "abre1",
+   "cena": "abre1",
+   "dur": 86,
+   "voz": 79,
+   "lead": 18,
+   "tr": "zoom",
+   "vo": [
+    [
+     "L00",
+     18
+    ]
+   ],
+   "from": 316
+  },
+  {
+   "id": "abre2",
+   "cena": "abre2",
+   "dur": 53,
+   "voz": 47,
+   "lead": 0,
+   "tr": "cut",
+   "vo": [
+    [
+     "L01",
+     0
+    ]
+   ],
+   "from": 402
+  },
+  {
+   "id": "busca",
+   "cena": "busca",
+   "dur": 72,
+   "voz": 66,
+   "lead": 0,
+   "tr": "cut",
+   "vo": [
+    [
+     "L02",
+     0
+    ]
+   ],
+   "from": 455
+  },
+  {
+   "id": "logo",
+   "cena": "logo",
+   "dur": 65,
+   "voz": 41,
+   "lead": 0,
+   "tr": "flash",
+   "vo": [
+    [
+     "L03",
+     0
+    ]
+   ],
+   "from": 527
+  },
+  {
+   "id": "presente",
+   "cena": "presente",
+   "dur": 201,
+   "tr": "zoom",
+   "vo": [
+    [
+     "L04",
+     10
+    ],
+    [
+     "L05",
+     78
+    ]
+   ],
+   "fase2": 74,
+   "vozFase2": 87,
+   "from": 592
+  },
+  {
+   "id": "educa",
+   "cena": "educa",
+   "dur": 97,
+   "voz": 91,
+   "lead": 0,
+   "tr": "up",
+   "vo": [
+    [
+     "L06",
+     0
+    ]
+   ],
+   "from": 793
+  },
+  {
+   "id": "inclui",
+   "cena": "inclui",
+   "dur": 79,
+   "voz": 73,
+   "lead": 0,
+   "tr": "cut",
+   "vo": [
+    [
+     "L07",
+     0
+    ]
+   ],
+   "from": 890
+  },
+  {
+   "id": "pergunta",
+   "cena": "pergunta",
+   "dur": 91,
+   "voz": 84,
+   "lead": 0,
+   "tr": "zoom",
+   "vo": [
+    [
+     "L08",
+     0
+    ]
+   ],
+   "from": 969
+  },
+  {
+   "id": "num1",
+   "cena": "num1",
+   "dur": 102,
+   "voz": 83,
+   "lead": 0,
+   "tr": "flash",
+   "vo": [
+    [
+     "L09",
+     0
+    ]
+   ],
+   "from": 1060
+  },
+  {
+   "id": "num2",
+   "cena": "num2",
+   "dur": 120,
+   "voz": 104,
+   "lead": 0,
+   "tr": "cut",
+   "vo": [
+    [
+     "L10",
+     0
+    ]
+   ],
+   "from": 1162
+  },
+  {
+   "id": "widgets",
+   "cena": "widgets",
+   "dur": 275,
+   "voz": 268,
+   "lead": 0,
+   "tr": "zoom",
+   "vo": [
+    [
+     "L11",
+     0
+    ]
+   ],
+   "from": 1282
+  },
+  {
+   "id": "prod",
+   "cena": "prod",
+   "dur": 203,
+   "tr": "whip",
+   "vo": [
+    [
+     "N1",
+     12
+    ]
+   ],
+   "lead": 12,
+   "voz": 173,
+   "from": 1557
+  },
+  {
+   "id": "moral",
+   "cena": "moral",
+   "dur": 150,
+   "tr": "up",
+   "vo": [
+    [
+     "N2",
+     10
+    ]
+   ],
+   "lead": 10,
+   "voz": 118,
+   "from": 1760
+  },
+  {
+   "id": "virada",
+   "cena": "virada",
+   "dur": 70,
+   "voz": 63,
+   "lead": 0,
+   "tr": "zoom",
+   "vo": [
+    [
+     "L12",
+     0
+    ]
+   ],
+   "from": 1910
+  },
+  {
+   "id": "palavras",
+   "cena": "palavras",
+   "dur": 140,
+   "tr": "cut",
+   "vo": [
+    [
+     "W0",
+     2
+    ],
+    [
+     "W1",
+     34
+    ],
+    [
+     "W2",
+     66
+    ],
+    [
+     "W3",
+     98
+    ]
+   ],
+   "voz": 128,
+   "from": 1980
+  },
+  {
+   "id": "trimestre",
+   "cena": "trimestre",
+   "dur": 133,
+   "voz": 126,
+   "lead": 0,
+   "tr": "flash",
+   "vo": [
+    [
+     "L13",
+     0
+    ]
+   ],
+   "from": 2120
+  },
+  {
+   "id": "premio",
+   "cena": "premio",
+   "dur": 129,
+   "tr": "zoom",
+   "vo": [
+    [
+     "N4",
+     8
+    ]
+   ],
+   "lead": 8,
+   "voz": 101,
+   "from": 2253
+  },
+  {
+   "id": "eventos",
+   "cena": "eventos",
+   "dur": 230,
+   "tr": "whip",
+   "vo": [
+    [
+     "N3",
+     10
+    ]
+   ],
+   "voz": 200,
+   "from": 2382
+  },
+  {
+   "id": "mentor",
+   "cena": "mentor",
+   "dur": 233,
+   "voz": 92,
+   "lead": 0,
+   "tr": "up",
+   "vo": [
+    [
+     "L16",
+     0
+    ]
+   ],
+   "from": 2612
+  },
+  {
+   "id": "pessoas",
+   "cena": "pessoas",
+   "dur": 84,
+   "voz": 78,
+   "lead": 0,
+   "tr": "zoom",
+   "vo": [
+    [
+     "L17",
+     0
+    ]
+   ],
+   "from": 2845
+  },
+  {
+   "id": "final",
+   "cena": "final",
+   "dur": 242,
+   "tr": "flash",
+   "vo": [
+    [
+     "L18",
+     106
+    ]
+   ],
+   "per": 9,
+   "from": 2929
+  }
+ ]
+}

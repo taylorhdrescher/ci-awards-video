@@ -1,0 +1,74 @@
+[
+ {
+  "id": "anos",
+  "f": "F00",
+  "leg": "Você levou anos para construir o seu patrimônio.",
+  "voz": 76
+ },
+ {
+  "id": "pergunta",
+  "f": "F01",
+  "leg": "Mas me responde uma coisa:",
+  "voz": 47
+ },
+ {
+  "id": "caos",
+  "f": "F02",
+  "leg": "ele tem uma estratégia… ou só um monte de decisões soltas?",
+  "voz": 101
+ },
+ {
+  "id": "dores",
+  "f": "F03",
+  "leg": "Dinheiro que entra e some. Investimentos sem direção. Seguros que talvez não protejam o que importa.",
+  "voz": 167
+ },
+ {
+  "id": "isoladas",
+  "f": "F04",
+  "leg": "Decisões isoladas não formam uma estratégia.",
+  "voz": 81
+ },
+ {
+  "id": "marca",
+  "f": "F05",
+  "leg": "É aqui que entra a FK Wealth Planner.",
+  "voz": 64
+ },
+ {
+  "id": "pilares",
+  "f": "F06",
+  "leg": "Planejamento, investimentos, proteção e sucessão. Tudo conectado, em uma única estrutura.",
+  "voz": 159
+ },
+ {
+  "id": "entregas",
+  "f": "F07",
+  "leg": "Você recebe um diagnóstico completo, um plano de ação claro e um painel para acompanhar cada passo.",
+  "voz": 162
+ },
+ {
+  "id": "independencia",
+  "f": "F08",
+  "leg": "Sem comissão de bancos. Sem conflito de interesse. Só o que faz sentido para você.",
+  "voz": 125
+ },
+ {
+  "id": "felipe",
+  "f": "F09",
+  "leg": "Com Felipe Kerber, consultor financeiro certificado CEA.",
+  "voz": 104
+ },
+ {
+  "id": "merece",
+  "f": "F10",
+  "leg": "Seu patrimônio merece uma estratégia.",
+  "voz": 61
+ },
+ {
+  "id": "cta",
+  "f": "F11",
+  "leg": "Agende agora a sua reunião estratégica. Sem compromisso.",
+  "voz": 98
+ }
+]

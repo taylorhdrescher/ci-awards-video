@@ -1,0 +1,127 @@
+[
+ {
+  "id": "gancho",
+  "frases": [
+   {
+    "f": "V00",
+    "leg": "Seu cliente decide",
+    "frames": 40
+   },
+   {
+    "f": "V01",
+    "leg": "em 3 segundos.",
+    "frames": 34
+   }
+  ]
+ },
+ {
+  "id": "rolagem",
+  "frases": [
+   {
+    "f": "V02",
+    "leg": "Se o seu conteúdo não prende,",
+    "frames": 55
+   },
+   {
+    "f": "V03",
+    "leg": "ele passa direto.",
+    "frames": 36
+   }
+  ]
+ },
+ {
+  "id": "virada",
+  "frases": [
+   {
+    "f": "V04",
+    "leg": "É aqui que entra",
+    "frames": 30
+   },
+   {
+    "f": "V05",
+    "leg": "a Clique Motion.",
+    "frames": 31
+   }
+  ]
+ },
+ {
+  "id": "explica",
+  "frases": [
+   {
+    "f": "V06",
+    "leg": "Vídeos animados que explicam o seu produto,",
+    "frames": 70
+   },
+   {
+    "f": "V07",
+    "leg": "valorizam o seu serviço",
+    "frames": 44
+   },
+   {
+    "f": "V08",
+    "leg": "e mostram os seus resultados.",
+    "frames": 51
+   }
+  ]
+ },
+ {
+  "id": "pacote",
+  "frases": [
+   {
+    "f": "V09",
+    "leg": "Roteiro, design, animação,",
+    "frames": 50
+   },
+   {
+    "f": "V10",
+    "leg": "trilha e legendas.",
+    "frames": 36
+   },
+   {
+    "f": "V11",
+    "leg": "Tudo num só lugar.",
+    "frames": 35
+   }
+  ]
+ },
+ {
+  "id": "formatos",
+  "frases": [
+   {
+    "f": "V12",
+    "leg": "Pronto pra Reels, Stories e anúncios.",
+    "frames": 63
+   }
+  ]
+ },
+ {
+  "id": "preco",
+  "frases": [
+   {
+    "f": "V13",
+    "leg": "E cabe no seu bolso:",
+    "frames": 41
+   },
+   {
+    "f": "V14",
+    "leg": "a partir de R$ 297.",
+    "frames": 84
+   }
+  ]
+ },
+ {
+  "id": "cta",
+  "frases": [
+   {
+    "f": "V15",
+    "leg": "Chama no direct",
+    "frames": 31
+   },
+   {
+    "f": "V16",
+    "leg": "e dá o primeiro clique.",
+    "frames": 40
+   }
+  ]
+ }
+]

@@ -1,0 +1,47 @@
+[
+ {
+  "id": "tres",
+  "f": "Q00",
+  "voz": 45
+ },
+ {
+  "id": "decide",
+  "f": "Q01",
+  "voz": 129
+ },
+ {
+  "id": "parado",
+  "f": "Q02",
+  "voz": 58
+ },
+ {
+  "id": "concorrente",
+  "f": "Q03",
+  "voz": 86
+ },
+ {
+  "id": "solucao",
+  "f": "Q04",
+  "voz": 126
+ },
+ {
+  "id": "pacote",
+  "f": "Q05",
+  "voz": 145
+ },
+ {
+  "id": "funil",
+  "f": "Q06",
+  "voz": 72
+ },
+ {
+  "id": "preco",
+  "f": "Q07",
+  "voz": 130
+ },
+ {
+  "id": "cta",
+  "f": "Q08",
+  "voz": 98
+ }
+]
