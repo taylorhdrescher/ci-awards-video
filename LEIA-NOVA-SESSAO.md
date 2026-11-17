@@ -40,3 +40,23 @@ python3 scripts/trilha8.py && fluidsynth -ni -g 0.6 -r 44100 -F scripts/trilha8-
   && ffmpeg -y -i scripts/trilha8-raw.wav -t 132 -af "loudnorm=I=-16:TP=-1.5:LRA=11,afade=t=out:st=129.5:d=2.5" public/audio/trilha8.wav
 python3 scripts/sfx8.py
 ```
+
+---
+
+# V9 — "Grandeza" (versão atual) · mesmo roteiro e tempos da v7
+
+Composições **CIAwardsV9** (1920x1080) e **CIAwardsV9Vertical** (1080x1920), 2:32 — mesmas durações e sobreposição da v7,
+então a trilha orquestral (`public/audio/trilha.wav`) e os sinos dos contadores (`public/audio/efeitos.wav`) continuam sincronizados.
+- Entrada: `src/v9/index.ts` · montagem/transições: `src/v9/V9.tsx` · cenas: `src/v9/cenas-a.tsx`, `src/v9/cenas-b.tsx` · kit: `src/v9/kit.tsx`
+- Linguagem: imagens da fábrica com correção de cor + letterbox + reflexo anamórfico; Inter fina/negrito + Playfair itálico;
+  camada técnica (marcas de corte, coordenadas de Montenegro, linhas finas, colchetes de rastreamento); dourado metálico,
+  feixes de luz e partículas para o prêmio; painéis de vidro para os dados.
+- `public/vid/fundo-lento.mp4` (câmera lenta com interpolação) é gerado de `fundo.mp4`:
+  `ffmpeg -i public/vid/fundo.mp4 -an -vf "setpts=PTS*5/3,minterpolate=fps=30:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1" -crf 17 public/vid/fundo-lento.mp4`
+- Trilha/sinos da v7 regenerados dos scripts: `python3 scripts/trilha.py` e `python3 scripts/efeitos.py` + fluidsynth (FluidR3_GM).
+
+```bash
+node scripts/assets.mjs
+npx remotion render src/v9/index.ts CIAwardsV9 out/CI-Awards-2026-v9.mp4 --crf=19
+npx remotion render src/v9/index.ts CIAwardsV9Vertical out/CI-Awards-2026-v9-vertical.mp4 --crf=19
+```
