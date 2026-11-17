@@ -31,7 +31,7 @@ export const DEPOIMENTO = {
 export const PRESENTE = {
   frases: ["No chão de fábrica", "Ao lado das pessoas", "Nos resultados"],
   cards: [
-    { src: "vid/grupo-gemba.mp4", tipo: "video", label: "No Gemba" },
+    { src: "img/m-feira-gemba.jpg", tipo: "img", label: "No Gemba" }, // vid/grupo-gemba.mp4 não veio no pacote
     { src: "vid/paineis.mp4", tipo: "video", label: "Na gestão diária" },
     { src: "img/gemba-estande.jpg", tipo: "img", label: "Com os times" },
     { src: "img/estande-apresentacao.jpg", tipo: "img", label: "Engajando" },

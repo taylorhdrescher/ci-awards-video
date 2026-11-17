@@ -82,7 +82,7 @@ const Anos: React.FC<D> = () => {
               </div>
             );
           })}
-          <div style={{ position: "absolute", left: V ? size * 1.25 : size * 1.5, top: V ? -size * 0.25 : -size * 0.3 }}>
+          <div style={{ position: "absolute", left: V ? size * 1.4 : size * 1.5, top: V ? -size * 0.25 : -size * 0.3 }}>
             <Pill at={40} size={V ? 44 : 64} bg={C.yellow}>
               {EVENTO.fiscal}
             </Pill>

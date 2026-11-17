@@ -55,6 +55,24 @@ def tick(t, freq=1800, gain=0.18):
     add(np.sin(2 * np.pi * freq * tt) * np.exp(-tt * 70) * gain, t)
 
 
+def sample(name):
+    """Carrega um efeito de public/sfx (pacote enviado pelo usuário), mono, reamostrado para 44,1 kHz."""
+    with wave.open(f"public/sfx/{name}.wav") as w:
+        sr, ch = w.getframerate(), w.getnchannels()
+        x = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16).astype(float) / 32768
+    if ch == 2:
+        x = x.reshape(-1, 2).mean(1)
+    n = int(len(x) * SR / sr)
+    return np.interp(np.linspace(0, len(x) - 1, n), np.arange(len(x)), x)
+
+
+CLICK = sample("click_002")
+TICK = sample("tick_002")
+GLASS = sample("glass_002")
+BELL = sample("impactBell_heavy_000")
+BOOM = sample("lowFrequency_explosion_000")
+
+
 def s(f):
     return f / FPS
 
@@ -68,19 +86,21 @@ for f in WHOOSH:
 for f in SLAM:
     impact(s(f), 0.7)
 for f in BIG:
-    impact(s(f), 0.9, big=True)
+    impact(s(f), 0.6, big=True)
+    add(BELL * 0.55, s(f))
+    add(BOOM * 0.7, s(f))
 
 # --- tiques: fotos trocando na batida, contadores, palavras
 for f in range(420, 600, 30):  # cartões de "Estar presente"
-    tick(s(f), 2200, 0.14)
+    add(GLASS * 0.35, s(f))
 for k in range(6):  # órbita: chips entrando
     tick(s(600 + 12 + k * 7.5), 1600 + k * 120, 0.12)
 for f in (840 + 75, 840 + 105):  # cliques do cursor
-    tick(s(f), 3000, 0.25)
+    add(CLICK * 0.9, s(f))
 for k in range(18):  # contadores da grade
-    tick(s(1458 + k * 4), 1400 + k * 60, 0.08)
+    add(TICK * 0.45, s(1458 + k * 4))
 for f in range(2640, 2745, 15):  # rajada de fotos
-    tick(s(f), 2400, 0.14)
+    add(GLASS * 0.35, s(f))
 for k in range(4):  # trimestres
     impact(s(2400 + 45 + k * 30), 0.35)
 for k in range(8):  # baralho de fotos

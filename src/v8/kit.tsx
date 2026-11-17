@@ -4,7 +4,8 @@
  * rolo de anos, anel 3D de texto, cursor clicando em cartões. Tudo responsivo (16:9 e 9:16).
  */
 import React from "react";
-import { AbsoluteFill, Easing, Img, interpolate, OffthreadVideo, random, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Easing, Img, interpolate, Loop, OffthreadVideo, random, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { LENTO, VIDEO_LEN } from "../components/ui";
 import { loadFont } from "@remotion/fonts";
 import ASSETS from "./assets.json";
 
@@ -71,7 +72,10 @@ export const hasAsset = (src: string) => HAS.has(src);
 export const Midia: React.FC<{ src: string; style?: React.CSSProperties; zoom?: [number, number]; dur?: number; startFrom?: number; dim?: number }> = ({ src, style, zoom = [1.08, 1], dur = 90, startFrom = 0, dim = 0 }) => {
   const frame = useCurrentFrame();
   const z = interpolate(frame, [0, dur], zoom, cl);
+  // clipes curtos: usa a versão em câmera lenta (se existir) e repete em loop para não congelar
+  if (LENTO[src] && HAS.has(LENTO[src])) src = LENTO[src];
   const isVid = src.endsWith(".mp4");
+  const len = VIDEO_LEN[src];
   const base: React.CSSProperties = { width: "100%", height: "100%", objectFit: "cover", scale: String(z) };
   return (
     <div style={{ position: "relative", overflow: "hidden", background: C.deep, ...style }}>
@@ -80,7 +84,13 @@ export const Midia: React.FC<{ src: string; style?: React.CSSProperties; zoom?: 
           <div style={{ fontFamily: F, fontWeight: 600, fontSize: 22, color: "rgba(255,255,255,.55)", letterSpacing: "0.1em" }}>{src.split("/").pop()}</div>
         </AbsoluteFill>
       ) : isVid ? (
-        <OffthreadVideo src={staticFile(src)} startFrom={startFrom} muted style={base} />
+        len ? (
+          <Loop durationInFrames={len - 2} layout="none">
+            <OffthreadVideo src={staticFile(src)} muted style={base} />
+          </Loop>
+        ) : (
+          <OffthreadVideo src={staticFile(src)} startFrom={startFrom} muted style={base} />
+        )
       ) : (
         <Img src={staticFile(src)} style={base} />
       )}

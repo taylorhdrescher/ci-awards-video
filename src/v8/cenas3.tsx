@@ -84,7 +84,7 @@ const Rajada: React.FC<D> = ({ dur }) => {
     return (
       <AbsoluteFill style={{ background: C.black }}>
         <Sequence from={i * per} layout="none" key={i}>
-          <Midia src={fotos[i]} dur={per} zoom={[1.15, 1.03]} dim={0.35} style={{ position: "absolute", inset: 0 }} />
+          <Midia src={fotos[i]} dur={per} zoom={[1.15, 1.03]} dim={0.55} style={{ position: "absolute", inset: 0 }} />
         </Sequence>
         <AbsoluteFill style={{ ...center, flexDirection: "column" }}>
           <Pop text="Quem faz," size={V ? 150 : 200} color={C.white} />
