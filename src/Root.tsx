@@ -4,6 +4,7 @@ import { CIAwardsVideo, TOTAL } from "./Video";
 import { CIAwardsTeste, TESTE_TOTAL } from "./teste/Teste";
 import { CIAwardsMix, MIX_TOTAL } from "./mix/Mix";
 import { CIAwardsV6, V6_TOTAL } from "./v6/V6";
+import { CIAwardsV8, V8_TOTAL } from "./v8/V8";
 import { FKVideo, FK_TOTAL } from "./fk/FK";
 import { FK2_TOTAL, FKVideo2, FKVideo2SemVoz } from "./fk/FK2";
 import { PROMO_TOTAL, PromoVideo } from "./promo/Promo";
@@ -21,6 +22,8 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="CIAwards" component={CIAwardsVideo} durationInFrames={TOTAL} fps={30} width={1920} height={1080} />
       <Composition id="CIAwardsTeste" component={CIAwardsTeste} durationInFrames={TESTE_TOTAL} fps={30} width={1920} height={1080} />
       <Composition id="CIAwardsMix" component={CIAwardsMix} durationInFrames={MIX_TOTAL} fps={30} width={1920} height={1080} />
+      <Composition id="CIAwardsV8" component={CIAwardsV8} durationInFrames={V8_TOTAL} fps={30} width={1920} height={1080} />
+      <Composition id="CIAwardsV8Vertical" component={CIAwardsV8} durationInFrames={V8_TOTAL} fps={30} width={1080} height={1920} />
       <Composition id="CIAwardsV6" component={CIAwardsV6} durationInFrames={V6_TOTAL} fps={30} width={1920} height={1080} />
       <Composition id="FKWealth" component={FKVideo} durationInFrames={FK_TOTAL} fps={30} width={1080} height={1920} />
       <Composition id="FKWealth2" component={FKVideo2} durationInFrames={FK2_TOTAL} fps={30} width={1080} height={1920} />
