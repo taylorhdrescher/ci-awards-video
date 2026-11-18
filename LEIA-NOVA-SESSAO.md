@@ -60,3 +60,21 @@ node scripts/assets.mjs
 npx remotion render src/v9/index.ts CIAwardsV9 out/CI-Awards-2026-v9.mp4 --crf=19
 npx remotion render src/v9/index.ts CIAwardsV9Vertical out/CI-Awards-2026-v9-vertical.mp4 --crf=19
 ```
+
+---
+
+# V10 — estilo "produto/interface" (referência estilo Vercel/v0) · versão atual
+
+Composições **CIAwardsV10** (1920x1080) e **CIAwardsV10Vertical** (1080x1920), 2:32 — roteiro, durações e trilha/sinos da v7.
+- Entrada: `src/v10/index.ts` · montagem: `src/v10/V10.tsx` · cenas: `src/v10/cenas.tsx` · kit: `src/v10/ui.tsx`
+- Linguagem: fundo preto com foco de luz; interface escura monocromática (painéis, chips, listas, campo de texto);
+  um único verde de destaque com brilho (anel de pontuação, pontos de status); câmera macro contínua (`Cam` com
+  quadros-chave [quadro, x, y, zoom, rotX, rotY]) com desfoque de movimento automático e profundidade de campo;
+  passagens por foco; digitação com cursor; botão branco "↗"; marca CI200 em branco (`public/v10/ci200-*.png`,
+  extraída do último quadro de `teste/abertura-logo.mp4`).
+- Sons de interface (cliques, digitação) vêm de `public/sfx` (pacote enviado), por cima da trilha e dos sinos.
+
+```bash
+npx remotion render src/v10/index.ts CIAwardsV10 out/CI-Awards-2026-v10.mp4 --crf=19
+npx remotion render src/v10/index.ts CIAwardsV10Vertical out/CI-Awards-2026-v10-vertical.mp4 --crf=19
+```
