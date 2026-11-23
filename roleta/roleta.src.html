@@ -1,0 +1,569 @@
+<title>Roleta CI Awards</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Palco de premiação: verde-noite, dourado da v12, roleta ao centro ocupando a altura; painel de nomes recolhível à direita. */
+:root {
+  --bg: #050b07;
+  --bg2: #0b1a10;
+  --panel: #0e2014;
+  --line: rgba(240, 207, 99, .22);
+  --gold: #f0cf63;
+  --gold-deep: #c99a2e;
+  --green: #2f6b2a;
+  --text: #f3efe2;
+  --muted: #a9b5a6;
+  --danger: #e0715e;
+  --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--text); font-family: var(--body); overflow: hidden; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.app { position: relative; height: 100%; display: grid; grid-template-rows: auto 1fr; grid-template-columns: 1fr auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.app::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 45% 55%, rgba(47, 107, 42, .35), transparent 70%), radial-gradient(ellipse 30% 30% at 45% 50%, rgba(240, 207, 99, .08), transparent 70%); pointer-events: none; }
+#dust { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+header { grid-column: 1 / -1; position: relative; display: flex; align-items: center; gap: 18px; padding-block: 14px 6px; z-index: 2; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.brand img { height: 52px; width: auto; filter: drop-shadow(0 0 10px rgba(255, 255, 255, .2)); }
+.brand h1 { margin: 0; font-family: var(--display); font-weight: 800; font-size: clamp(26px, 3vw, 40px); letter-spacing: .02em; text-transform: uppercase; line-height: 1; background: linear-gradient(180deg, #fff3c4, var(--gold) 45%, var(--gold-deep)); -webkit-background-clip: text; background-clip: text; color: transparent; white-space: nowrap; }
+.brand small { display: block; font-family: var(--body); font-size: 12px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); margin-top: 4px; -webkit-text-fill-color: var(--muted); }
+.prize { display: flex; align-items: center; gap: 10px; margin-left: auto; min-width: 0; }
+.prize label { font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }
+.prize input { width: min(320px, 40vw); background: rgba(255, 255, 255, .04); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: .03em; color: var(--gold); }
+.tools { display: flex; gap: 8px; }
+.icon-btn { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line); background: rgba(255, 255, 255, .04); font-size: 14px; font-weight: 500; color: var(--text); }
+.icon-btn:hover { background: rgba(240, 207, 99, .1); }
+.icon-btn[aria-pressed="false"] { color: var(--muted); }
+.icon-btn svg { width: 18px; height: 18px; }
+
+main { position: relative; min-height: 0; min-width: 0; display: grid; place-items: center; z-index: 1; padding-block: 8px 18px; }
+.stage { position: relative; width: min(100%, calc(100dvh - 120px)); aspect-ratio: 1; max-width: 100%; }
+#wheel { width: 100%; height: 100%; display: block; cursor: pointer; touch-action: manipulation; }
+.pointer { position: absolute; left: 50%; top: -1.5%; width: 9%; translate: -50% 0; transform-origin: 50% 20%; filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .6)) drop-shadow(0 0 14px rgba(240, 207, 99, .55)); pointer-events: none; }
+.hint { position: absolute; left: 0; right: 0; bottom: -6px; text-align: center; font-size: 13px; color: var(--muted); letter-spacing: .04em; }
+.hint kbd { font-family: var(--body); font-size: 12px; border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; color: var(--text); }
+.empty { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+
+aside { position: relative; z-index: 3; width: 360px; display: flex; flex-direction: column; gap: 14px; padding: 16px; margin-block: 8px 18px; border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(180deg, rgba(14, 32, 20, .92), rgba(8, 20, 12, .92)); min-height: 0; overflow: hidden; }
+aside[hidden] { display: none !important; }
+.panel-head { display: flex; align-items: baseline; justify-content: space-between; }
+.panel-head h2 { margin: 0; font-family: var(--display); font-weight: 700; font-size: 26px; letter-spacing: .03em; text-transform: uppercase; }
+.count { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.add { display: flex; gap: 8px; }
+.add input { flex: 1; min-width: 0; background: rgba(255, 255, 255, .06); border: 1px solid var(--line); border-radius: 10px; padding: 12px; font-size: 17px; }
+.add input::placeholder { color: var(--muted); }
+.btn { border: 0; border-radius: 10px; padding: 0 16px; min-height: 44px; font-weight: 600; font-size: 14px; }
+.btn-gold { background: linear-gradient(180deg, #ffe08a, var(--gold-deep)); color: #1b1503; }
+.btn-ghost { background: rgba(255, 255, 255, .05); border: 1px solid var(--line); color: var(--text); }
+.btn-danger { background: rgba(224, 113, 94, .15); border: 1px solid rgba(224, 113, 94, .5); color: #ffd2c9; }
+textarea { flex: 1; min-height: 120px; resize: none; background: rgba(0, 0, 0, .25); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 15px; line-height: 1.55; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row .btn { flex: 1 1 auto; min-height: 38px; font-size: 13px; }
+.check { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text); }
+.check input { width: 18px; height: 18px; accent-color: var(--gold); }
+.sample { font-size: 13px; color: #1b1503; background: var(--gold); border-radius: 8px; padding: 8px 10px; }
+.confirm { display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 10px; border: 1px solid rgba(224, 113, 94, .5); background: rgba(224, 113, 94, .08); font-size: 14px; }
+.history h3 { margin: 0 0 6px; font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.history ol { margin: 0; padding: 0; list-style: none; max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.history li { display: flex; gap: 10px; font-size: 14px; align-items: baseline; }
+.history li b { font-family: var(--display); font-size: 19px; font-weight: 700; color: var(--gold); letter-spacing: .02em; min-width: 0; overflow-wrap: anywhere; }
+.history li span { color: var(--muted); font-size: 12px; margin-left: auto; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.history .none { color: var(--muted); font-size: 13px; }
+
+/* resultado */
+.result { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; background: radial-gradient(ellipse at 50% 45%, rgba(20, 54, 29, .88), rgba(3, 7, 4, .94) 70%); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.result[hidden] { display: none !important; }
+.rays { position: absolute; inset: -20%; background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(240, 207, 99, .10) 0deg 6deg, transparent 6deg 18deg); animation: spin 40s linear infinite; mask-image: radial-gradient(circle at 50% 50%, #000 10%, transparent 60%); -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 10%, transparent 60%); }
+#confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.card { position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 1400px; }
+.card img { height: clamp(70px, 12vh, 130px); width: auto; filter: drop-shadow(0 0 20px rgba(255, 255, 255, .35)); }
+.card .lbl { font-size: clamp(13px, 1.4vw, 18px); letter-spacing: .4em; text-transform: uppercase; color: var(--gold); }
+.card .name { font-family: var(--display); font-weight: 800; font-size: clamp(56px, 11vw, 180px); line-height: .95; letter-spacing: .01em; text-transform: uppercase; text-wrap: balance; overflow-wrap: anywhere; background: linear-gradient(180deg, #fffbe8 0%, #ffe39a 40%, var(--gold) 60%, var(--gold-deep) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 6px 40px rgba(240, 207, 99, .35)); animation: pop .7s cubic-bezier(.2, 1.4, .4, 1) both; }
+.card .prize-out { font-size: clamp(18px, 2.2vw, 30px); color: var(--text); font-weight: 500; }
+.card .actions { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; justify-content: center; }
+.card .actions .btn { min-height: 52px; font-size: 16px; padding: 0 24px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pop { from { transform: scale(.6); opacity: 0; filter: blur(12px); } to { transform: scale(1); opacity: 1; } }
+
+@media (max-width: 860px) {
+  .app { grid-template-columns: 1fr; }
+  aside { position: fixed; right: max(12px, env(safe-area-inset-right, 0px)); left: max(12px, env(safe-area-inset-left, 0px)); top: 80px; bottom: 12px; width: auto; margin: 0; }
+  .prize { margin-left: 0; width: 100%; }
+  .prize input { flex: 1; width: auto; }
+  .stage { width: min(100%, calc(100dvh - 200px)); }
+  .brand img { height: 40px; }
+  .tools .txt { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .rays { animation: none; } .card .name { animation: none; } }
+</style>
+
+<div class="app" id="app">
+  <canvas id="dust" aria-hidden="true"></canvas>
+  <header>
+    <div class="brand">
+      <img src="data:image/png;base64,__LOGO_FULL__" alt="CI200 Continuous Improvement">
+      <h1>Sorteio CI Awards 2026<small>John Deere · Montenegro</small></h1>
+    </div>
+    <div class="prize">
+      <label for="prize">Prêmio</label>
+      <input id="prize" type="text" placeholder="Nome do prêmio (opcional)" autocomplete="off">
+    </div>
+    <div class="tools">
+      <button class="icon-btn" id="togglePanel" aria-pressed="true" title="Mostrar ou esconder os nomes (N)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span class="txt">Nomes</span>
+      </button>
+      <button class="icon-btn" id="sound" aria-pressed="true" title="Som ligado ou desligado">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path id="waves" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg><span class="txt">Som</span>
+      </button>
+      <button class="icon-btn" id="full" title="Tela cheia (F)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span class="txt">Tela cheia</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="stage" id="stage">
+      <canvas id="wheel" aria-label="Roleta. Clique para girar." role="button" tabindex="0"></canvas>
+      <svg class="pointer" id="pointer" viewBox="0 0 60 70" aria-hidden="true">
+        <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset=".5" stop-color="#f0cf63"/><stop offset="1" stop-color="#b8862a"/></linearGradient></defs>
+        <path d="M30 68 4 14a26 26 0 0 1 52 0z" fill="url(#pg)" stroke="#5a4310" stroke-width="2"/>
+        <circle cx="30" cy="18" r="7" fill="#0b1a10" stroke="#fff3c4" stroke-width="2"/>
+      </svg>
+      <div class="hint" id="hint">Clique na roleta ou aperte <kbd>Espaço</kbd> para girar</div>
+    </div>
+  </main>
+
+  <aside id="panel" aria-label="Participantes">
+    <div class="panel-head"><h2>Participantes</h2><span class="count" id="count">0 nomes</span></div>
+    <form class="add" id="addForm">
+      <input id="addInput" type="text" placeholder="Digite um nome e aperte Enter" autocomplete="off" aria-label="Novo participante">
+      <button class="btn btn-gold" type="submit">Adicionar</button>
+    </form>
+    <div class="sample" id="sample" hidden>Nomes de exemplo. Toque em <b>Limpar tudo</b> e digite os participantes reais.</div>
+    <textarea id="list" spellcheck="false" aria-label="Lista de participantes, um por linha" placeholder="Um nome por linha. Também dá para colar uma lista inteira aqui."></textarea>
+    <div class="row">
+      <button class="btn btn-ghost" id="shuffle" type="button">Embaralhar</button>
+      <button class="btn btn-ghost" id="dedupe" type="button">Tirar repetidos</button>
+      <button class="btn btn-danger" id="clear" type="button">Limpar tudo</button>
+    </div>
+    <div class="confirm" id="confirmClear" hidden>
+      Apagar todos os nomes da roleta?
+      <div class="row"><button class="btn btn-danger" id="clearYes" type="button">Apagar</button><button class="btn btn-ghost" id="clearNo" type="button">Cancelar</button></div>
+    </div>
+    <label class="check"><input type="checkbox" id="autoRemove" checked> Tirar da roleta quem for sorteado</label>
+    <div class="history">
+      <h3>Sorteados</h3>
+      <ol id="history"></ol>
+      <div class="row" style="margin-top:8px"><button class="btn btn-ghost" id="copyHist" type="button">Copiar resultado</button><button class="btn btn-ghost" id="clearHist" type="button">Zerar histórico</button></div>
+    </div>
+  </aside>
+</div>
+
+<div class="result" id="result" hidden role="dialog" aria-modal="true" aria-labelledby="winnerName">
+  <div class="rays" aria-hidden="true"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <div class="card">
+    <img src="data:image/png;base64,__LOGO_FULL__" alt="">
+    <div class="lbl">Sorteado</div>
+    <div class="name" id="winnerName"></div>
+    <div class="prize-out" id="winnerPrize"></div>
+    <div class="actions">
+      <button class="btn btn-gold" id="closeResult" type="button">Continuar</button>
+      <button class="btn btn-ghost" id="keepWinner" type="button">Manter na roleta</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem("roletaCI:" + k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+    set(k, v) { try { localStorage.setItem("roletaCI:" + k, JSON.stringify(v)); } catch {} },
+  };
+  const SAMPLE = ["Participante 1", "Participante 2", "Participante 3", "Participante 4", "Participante 5", "Participante 6", "Participante 7", "Participante 8"];
+  let names = store.get("names", null);
+  let isSample = names === null;
+  if (names === null) names = SAMPLE.slice();
+  let history = store.get("history", []);
+  $("prize").value = store.get("prize", "");
+  $("autoRemove").checked = store.get("autoRemove", true);
+  let soundOn = store.get("sound", true);
+  const panelOpen = store.get("panel", true);
+  $("panel").hidden = !panelOpen;
+  $("togglePanel").setAttribute("aria-pressed", String(panelOpen));
+
+  const iconImg = new Image();
+  iconImg.src = "data:image/png;base64,__LOGO_ICON__";
+  iconImg.onload = () => { buildWheel(); draw(); };
+
+  // ---------------- áudio (sintetizado)
+  let ac = null;
+  const audio = () => { if (!soundOn) return null; try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === "suspended") ac.resume(); return ac; } catch { return null; } };
+  const tick = () => {
+    const a = audio(); if (!a) return;
+    const t = a.currentTime, o = a.createOscillator(), g = a.createGain();
+    o.type = "triangle"; o.frequency.setValueAtTime(1800, t); o.frequency.exponentialRampToValueAtTime(900, t + 0.03);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.18, t + 0.003); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+    o.connect(g).connect(a.destination); o.start(t); o.stop(t + 0.06);
+  };
+  const fanfare = () => {
+    const a = audio(); if (!a) return;
+    const t0 = a.currentTime;
+    const notes = [[587.33, 0], [739.99, 0.09], [880, 0.18], [1174.66, 0.3], [1479.98, 0.3], [1760, 0.3]];
+    notes.forEach(([f, d]) => {
+      ["sine", "triangle"].forEach((type, k) => {
+        const o = a.createOscillator(), g = a.createGain();
+        o.type = type; o.frequency.value = f * (k ? 2 : 1);
+        const t = t0 + d, len = d >= 0.3 ? 2.2 : 0.5;
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(k ? 0.04 : 0.14, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
+        o.connect(g).connect(a.destination); o.start(t); o.stop(t + len + 0.05);
+      });
+    });
+  };
+
+  // ---------------- roleta
+  const canvas = $("wheel"), ctx = canvas.getContext("2d");
+  const off = document.createElement("canvas"), octx = off.getContext("2d");
+  const COLORS = [
+    { bg: "#163b20", fg: "#f3efe2" },
+    { bg: "#c99a2e", fg: "#1b1503" },
+    { bg: "#2f6b2a", fg: "#ffffff" },
+    { bg: "#0d2414", fg: "#f0cf63" },
+  ];
+  let size = 0, dpr = 1, rot = 0, spinning = false, lastIdx = -1, pointerKick = 0;
+
+  const colorFor = (i, n) => {
+    let c = i % COLORS.length;
+    if (n > 1 && i === n - 1 && c === 0) c = 2; // evita duas fatias iguais lado a lado no fechamento
+    return COLORS[c];
+  };
+
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    size = Math.max(200, Math.round(r.width));
+    canvas.width = off.width = size * dpr;
+    canvas.height = off.height = size * dpr;
+    buildWheel(); draw();
+  }
+
+  function fit(c, text, maxW) {
+    if (c.measureText(text).width <= maxW) return text;
+    let s = text;
+    while (s.length > 1 && c.measureText(s + "…").width > maxW) s = s.slice(0, -1);
+    return s + "…";
+  }
+
+  function buildWheel() {
+    const S = size * dpr, R = S / 2, c = octx;
+    c.setTransform(1, 0, 0, 1, 0, 0);
+    c.clearRect(0, 0, S, S);
+    const rOut = R * 0.9, hub = R * 0.17;
+    c.save(); c.translate(R, R);
+    const n = names.length;
+    if (n === 0) {
+      c.beginPath(); c.arc(0, 0, rOut, 0, Math.PI * 2); c.fillStyle = "#0d2414"; c.fill();
+      c.fillStyle = "#a9b5a6"; c.font = `600 ${R * 0.07}px Inter, sans-serif`; c.textAlign = "center"; c.textBaseline = "middle";
+      c.fillText("Adicione os nomes", 0, -R * 0.42);
+      c.restore(); return;
+    }
+    const seg = (Math.PI * 2) / n;
+    for (let i = 0; i < n; i++) {
+      const col = colorFor(i, n);
+      c.beginPath(); c.moveTo(0, 0); c.arc(0, 0, rOut, i * seg, (i + 1) * seg); c.closePath();
+      const g = c.createRadialGradient(0, 0, hub, 0, 0, rOut);
+      g.addColorStop(0, shade(col.bg, -0.35)); g.addColorStop(0.75, col.bg); g.addColorStop(1, shade(col.bg, 0.12));
+      c.fillStyle = g; c.fill();
+      if (n <= 180) { c.strokeStyle = "rgba(240,207,99,.35)"; c.lineWidth = Math.max(1, R * 0.004); c.stroke(); }
+      // nome
+      const fs = Math.max(9 * dpr, Math.min(R * 0.085, seg * rOut * 0.62));
+      if (fs >= 6 * dpr) {
+        c.save(); c.rotate(i * seg + seg / 2);
+        c.font = `700 ${fs}px "Barlow Condensed", "Arial Narrow", sans-serif`;
+        c.fillStyle = col.fg; c.textAlign = "right"; c.textBaseline = "middle";
+        const txt = fit(c, names[i].toUpperCase(), rOut - hub - R * 0.12);
+        c.fillText(txt, rOut - R * 0.05, 0);
+        c.restore();
+      }
+    }
+    c.restore();
+  }
+
+  function shade(hex, amt) {
+    const n = parseInt(hex.slice(1), 16);
+    let r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+    const f = (v) => Math.max(0, Math.min(255, Math.round(amt < 0 ? v * (1 + amt) : v + (255 - v) * amt)));
+    return `rgb(${f(r)},${f(g)},${f(b)})`;
+  }
+
+  function draw(now = performance.now()) {
+    const S = size * dpr, R = S / 2, c = ctx;
+    c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, S, S);
+    // halo
+    const halo = c.createRadialGradient(R, R, R * 0.8, R, R, R);
+    halo.addColorStop(0, "rgba(240,207,99,.0)"); halo.addColorStop(0.9, "rgba(240,207,99,.18)"); halo.addColorStop(1, "rgba(240,207,99,0)");
+    c.fillStyle = halo; c.fillRect(0, 0, S, S);
+    // fatias (girando)
+    c.save(); c.translate(R, R); c.rotate(rot); c.drawImage(off, -R, -R); c.restore();
+    // aro dourado
+    c.save(); c.translate(R, R);
+    const rim = R * 0.9;
+    const rg = c.createLinearGradient(-R, -R, R, R);
+    rg.addColorStop(0, "#fff3c4"); rg.addColorStop(0.3, "#c99a2e"); rg.addColorStop(0.55, "#ffe08a"); rg.addColorStop(1, "#8f6a1f");
+    c.lineWidth = R * 0.05; c.strokeStyle = rg; c.beginPath(); c.arc(0, 0, rim + R * 0.025, 0, Math.PI * 2); c.stroke();
+    c.lineWidth = Math.max(1, R * 0.006); c.strokeStyle = "rgba(0,0,0,.5)"; c.beginPath(); c.arc(0, 0, rim, 0, Math.PI * 2); c.stroke();
+    // lâmpadas no aro
+    const bulbs = 36, phase = Math.floor(now / (spinning ? 90 : 420));
+    for (let i = 0; i < bulbs; i++) {
+      const a = (i / bulbs) * Math.PI * 2, on = (i + phase) % 2 === 0;
+      const x = Math.cos(a) * (rim + R * 0.025), y = Math.sin(a) * (rim + R * 0.025);
+      c.beginPath(); c.arc(x, y, R * 0.011, 0, Math.PI * 2);
+      c.fillStyle = on ? "#fffbe8" : "#7a5a17"; c.shadowColor = on ? "rgba(255,240,190,.95)" : "transparent"; c.shadowBlur = on ? R * 0.03 : 0; c.fill();
+    }
+    c.shadowBlur = 0;
+    // centro com o logo
+    const hub = R * 0.17;
+    const hg = c.createRadialGradient(0, -hub * 0.3, hub * 0.1, 0, 0, hub);
+    hg.addColorStop(0, "#1f4a26"); hg.addColorStop(1, "#06100a");
+    c.beginPath(); c.arc(0, 0, hub, 0, Math.PI * 2); c.fillStyle = hg; c.fill();
+    c.lineWidth = R * 0.018; c.strokeStyle = rg; c.stroke();
+    if (iconImg.complete && iconImg.naturalWidth) {
+      const w = hub * 1.25, h = (w * iconImg.naturalHeight) / iconImg.naturalWidth;
+      c.drawImage(iconImg, -w / 2, -h / 2, w, h);
+    }
+    c.restore();
+    // ponteiro
+    $("pointer").style.rotate = `${pointerKick}deg`;
+  }
+
+  const idxAtPointer = () => {
+    const n = names.length; if (!n) return -1;
+    const seg = (Math.PI * 2) / n;
+    let a = (-Math.PI / 2 - rot) % (Math.PI * 2); if (a < 0) a += Math.PI * 2;
+    return Math.floor(a / seg) % n;
+  };
+
+  const rand = () => { const u = new Uint32Array(1); crypto.getRandomValues(u); return u[0] / 2 ** 32; };
+
+  function spin() {
+    if (spinning) return;
+    const n = names.length;
+    if (n < 2) { flashHint(n === 0 ? "Adicione pelo menos dois nomes para sortear." : "Adicione mais um nome para sortear."); return; }
+    audio();
+    const winner = Math.floor(rand() * n);
+    const seg = (Math.PI * 2) / n;
+    const u = 0.15 + rand() * 0.7;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const turns = reduce ? 2 : 6 + Math.floor(rand() * 3);
+    // gira no sentido horário até o ângulo em que a fatia sorteada fica sob o ponteiro
+    const TAU = Math.PI * 2;
+    let target = -Math.PI / 2 - (winner + u) * seg;
+    target = rot + ((((target - rot) % TAU) + TAU) % TAU);
+    target += turns * TAU;
+    const start = rot, dur = reduce ? 2500 : 7000 + rand() * 1500, t0 = performance.now();
+    spinning = true; lastIdx = idxAtPointer();
+    $("hint").textContent = "Girando…";
+    const ease = (t) => 1 - Math.pow(1 - t, 4);
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      rot = start + (target - start) * ease(t);
+      const idx = idxAtPointer();
+      if (idx !== lastIdx) { lastIdx = idx; tick(); pointerKick = -18; }
+      pointerKick *= 0.82;
+      draw(now);
+      if (t < 1) requestAnimationFrame(step);
+      else { spinning = false; pointerKick = 0; draw(); setTimeout(() => showWinner(winner), 350); }
+    };
+    requestAnimationFrame(step);
+  }
+
+  // ---------------- resultado
+  let pendingWinner = -1;
+  function showWinner(i) {
+    pendingWinner = i;
+    const name = names[i];
+    $("winnerName").textContent = name;
+    const prize = $("prize").value.trim();
+    $("winnerPrize").textContent = prize ? `Prêmio: ${prize}` : "";
+    $("keepWinner").hidden = !$("autoRemove").checked;
+    $("closeResult").textContent = $("autoRemove").checked ? "Continuar (tira da roleta)" : "Continuar";
+    history.unshift({ name, prize, time: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) });
+    store.set("history", history); renderHistory();
+    $("result").hidden = false;
+    $("closeResult").focus();
+    fanfare(); confetti();
+    $("hint").innerHTML = 'Clique na roleta ou aperte <kbd>Espaço</kbd> para girar';
+  }
+  function closeResult(remove) {
+    if ($("result").hidden) return;
+    $("result").hidden = true; stopConfetti();
+    if (remove && pendingWinner >= 0 && pendingWinner < names.length) { names.splice(pendingWinner, 1); isSample = false; saveNames(); }
+    pendingWinner = -1;
+    canvas.focus();
+  }
+  $("closeResult").onclick = () => closeResult($("autoRemove").checked);
+  $("keepWinner").onclick = () => closeResult(false);
+
+  // confete dourado
+  const cc = $("confetti"), cctx = cc.getContext("2d");
+  let parts = [], confRAF = 0;
+  function confetti() {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    cc.width = innerWidth * dpr; cc.height = innerHeight * dpr;
+    const cols = ["#f0cf63", "#fff3c4", "#c99a2e", "#ffffff", "#5fae4a"];
+    parts = Array.from({ length: 260 }, () => ({
+      x: cc.width / 2 + (Math.random() - 0.5) * cc.width * 0.3, y: cc.height * 0.45,
+      vx: (Math.random() - 0.5) * 26 * dpr, vy: (-Math.random() * 22 - 6) * dpr,
+      w: (6 + Math.random() * 10) * dpr, h: (3 + Math.random() * 6) * dpr,
+      r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.4, c: cols[(Math.random() * cols.length) | 0], life: 0,
+    }));
+    cancelAnimationFrame(confRAF);
+    const loop = () => {
+      cctx.clearRect(0, 0, cc.width, cc.height);
+      let alive = 0;
+      for (const p of parts) {
+        p.vy += 0.45 * dpr; p.vx *= 0.985; p.vy *= 0.985; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life++;
+        if (p.y < cc.height + 40) alive++;
+        cctx.save(); cctx.translate(p.x, p.y); cctx.rotate(p.r); cctx.fillStyle = p.c; cctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.life * 0.15))); cctx.restore();
+      }
+      if (alive) confRAF = requestAnimationFrame(loop);
+    };
+    loop();
+  }
+  const stopConfetti = () => { cancelAnimationFrame(confRAF); cctx.clearRect(0, 0, cc.width, cc.height); };
+
+  // ---------------- lista de nomes
+  const listEl = $("list");
+  function renderList() {
+    if (document.activeElement !== listEl) listEl.value = names.join("\n");
+    $("count").textContent = `${names.length} ${names.length === 1 ? "nome" : "nomes"}`;
+    $("sample").hidden = !isSample;
+  }
+  function saveNames() { store.set("names", names); renderList(); buildWheel(); draw(); }
+  const clean = (arr) => arr.map((s) => s.replace(/\s+/g, " ").trim()).filter(Boolean);
+  let listTimer = 0;
+  listEl.addEventListener("input", () => {
+    clearTimeout(listTimer);
+    listTimer = setTimeout(() => { if (spinning) return; names = clean(listEl.value.split(/\r?\n/)); isSample = false; saveNames(); }, 200);
+  });
+  listEl.addEventListener("blur", renderList);
+  $("addForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (spinning) return;
+    const v = clean($("addInput").value.split(/\r?\n|;/));
+    if (!v.length) return;
+    if (isSample) { names = []; isSample = false; }
+    names.push(...v); $("addInput").value = ""; saveNames();
+  });
+  $("addInput").addEventListener("paste", (e) => {
+    const text = (e.clipboardData || window.clipboardData)?.getData("text") || "";
+    if (/\n/.test(text)) {
+      e.preventDefault();
+      if (isSample) { names = []; isSample = false; }
+      names.push(...clean(text.split(/\r?\n/))); saveNames();
+    }
+  });
+  $("shuffle").onclick = () => { if (spinning) return; for (let i = names.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [names[i], names[j]] = [names[j], names[i]]; } saveNames(); };
+  $("dedupe").onclick = () => { if (spinning) return; const seen = new Set(); names = names.filter((n) => { const k = n.toLocaleLowerCase("pt-BR"); if (seen.has(k)) return false; seen.add(k); return true; }); saveNames(); };
+  $("clear").onclick = () => { $("confirmClear").hidden = false; };
+  $("clearNo").onclick = () => { $("confirmClear").hidden = true; };
+  $("clearYes").onclick = () => { if (spinning) return; names = []; isSample = false; $("confirmClear").hidden = true; saveNames(); $("addInput").focus(); };
+
+  // histórico
+  function renderHistory() {
+    const ol = $("history"); ol.innerHTML = "";
+    if (!history.length) { const li = document.createElement("li"); li.className = "none"; li.textContent = "Ninguém sorteado ainda."; ol.appendChild(li); return; }
+    history.forEach((h) => {
+      const li = document.createElement("li");
+      const b = document.createElement("b"); b.textContent = h.name;
+      const s = document.createElement("span"); s.textContent = (h.prize ? h.prize + " · " : "") + h.time;
+      li.append(b, s); ol.appendChild(li);
+    });
+  }
+  $("copyHist").onclick = async () => {
+    const txt = history.slice().reverse().map((h, i) => `${i + 1}. ${h.name}${h.prize ? " — " + h.prize : ""} (${h.time})`).join("\n");
+    try { await navigator.clipboard.writeText(txt || "Ninguém sorteado ainda."); $("copyHist").textContent = "Copiado"; setTimeout(() => ($("copyHist").textContent = "Copiar resultado"), 1500); }
+    catch { $("copyHist").textContent = "Não foi possível copiar"; setTimeout(() => ($("copyHist").textContent = "Copiar resultado"), 1800); }
+  };
+  $("clearHist").onclick = () => { history = []; store.set("history", history); renderHistory(); };
+
+  // ---------------- controles
+  $("prize").addEventListener("input", () => store.set("prize", $("prize").value));
+  $("autoRemove").addEventListener("change", () => store.set("autoRemove", $("autoRemove").checked));
+  const setSound = () => { $("sound").setAttribute("aria-pressed", String(soundOn)); $("waves").style.display = soundOn ? "" : "none"; };
+  $("sound").onclick = () => { soundOn = !soundOn; store.set("sound", soundOn); setSound(); };
+  setSound();
+  const togglePanel = () => {
+    const open = $("panel").hidden; $("panel").hidden = !open;
+    $("togglePanel").setAttribute("aria-pressed", String(open)); store.set("panel", open);
+    requestAnimationFrame(resize);
+    if (open) $("addInput").focus();
+  };
+  $("togglePanel").onclick = togglePanel;
+  const fullscreen = async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await document.documentElement.requestFullscreen();
+    } catch { flashHint("Tela cheia não está disponível aqui. Use F11 no navegador."); }
+  };
+  $("full").onclick = fullscreen;
+  canvas.addEventListener("click", spin);
+
+  let hintTimer = 0;
+  function flashHint(msg) {
+    $("hint").textContent = msg; clearTimeout(hintTimer);
+    hintTimer = setTimeout(() => ($("hint").innerHTML = 'Clique na roleta ou aperte <kbd>Espaço</kbd> para girar'), 2600);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    const typing = /INPUT|TEXTAREA/.test(document.activeElement?.tagName || "");
+    if (!$("result").hidden) {
+      if (e.key === "Escape" || e.key === "Enter" || e.key === " ") { e.preventDefault(); closeResult($("autoRemove").checked); }
+      return;
+    }
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); spin(); return; }
+    if (typing) return;
+    if (e.key === " " || e.key === "Enter") { e.preventDefault(); spin(); }
+    else if (e.key === "n" || e.key === "N") togglePanel();
+    else if (e.key === "f" || e.key === "F") fullscreen();
+  });
+
+  // mantém a tela do telão acesa
+  let lock = null;
+  const wake = async () => { try { if ("wakeLock" in navigator && !lock) { lock = await navigator.wakeLock.request("screen"); lock.addEventListener("release", () => (lock = null)); } } catch {} };
+  document.addEventListener("click", wake, { once: true });
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") wake(); });
+
+  // poeira dourada de fundo
+  const dc = $("dust"), dctx = dc.getContext("2d");
+  const motes = Array.from({ length: 60 }, () => ({ x: Math.random(), y: Math.random(), s: 1 + Math.random() * 2.5, v: 0.00015 + Math.random() * 0.0004, p: Math.random() * 6 }));
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function dust(now) {
+    dc.width = dc.clientWidth; dc.height = dc.clientHeight;
+    for (const m of motes) {
+      if (!reduceMotion) { m.y -= m.v; if (m.y < -0.02) m.y = 1.02; }
+      const a = 0.25 + 0.35 * (0.5 + 0.5 * Math.sin(now / 900 + m.p));
+      dctx.beginPath(); dctx.arc(m.x * dc.width, m.y * dc.height, m.s, 0, Math.PI * 2);
+      dctx.fillStyle = `rgba(255,220,130,${a})`; dctx.fill();
+    }
+    if (!spinning) draw(now); // pisca as lâmpadas devagar em repouso
+    if (!reduceMotion) setTimeout(() => requestAnimationFrame(dust), 60);
+  }
+
+  new ResizeObserver(resize).observe($("stage"));
+  document.fonts?.ready.then(() => { buildWheel(); draw(); });
+  renderList(); renderHistory(); resize();
+  requestAnimationFrame(dust);
+})();
+</script>
