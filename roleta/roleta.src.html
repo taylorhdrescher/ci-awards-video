@@ -214,21 +214,99 @@ textarea { flex: 1; min-height: 120px; resize: none; background: rgba(0, 0, 0, .
     const a = audio(); if (!a) return;
     const t = a.currentTime, o = a.createOscillator(), g = a.createGain();
     o.type = "triangle"; o.frequency.setValueAtTime(1800, t); o.frequency.exponentialRampToValueAtTime(900, t + 0.03);
-    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.18, t + 0.003); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
-    o.connect(g).connect(a.destination); o.start(t); o.stop(t + 0.06);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.003); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+    o.connect(g).connect(out(a)); o.start(t); o.stop(t + 0.06);
   };
+  // tudo passa por um compressor (evita distorção no som do telão)
+  let bus = null, noiseBuf = null;
+  const out = (a) => {
+    if (!bus) { bus = a.createDynamicsCompressor(); bus.threshold.value = -14; bus.ratio.value = 4; bus.connect(a.destination); }
+    return bus;
+  };
+  const noise = (a) => {
+    if (!noiseBuf) { noiseBuf = a.createBuffer(1, a.sampleRate * 2, a.sampleRate); const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+    const n = a.createBufferSource(); n.buffer = noiseBuf; return n;
+  };
+
+  /** Suspense durante o giro: rufar de tambor que acelera e cresce, grave pulsante e nota de tensão subindo. Devolve uma função que corta tudo. */
+  const suspense = (dur) => {
+    const a = audio(); if (!a) return () => {};
+    const t0 = a.currentTime + 0.02, end = t0 + dur;
+    const master = a.createGain(); master.gain.value = 1; master.connect(out(a));
+    const nodes = [];
+    // rufar: batidas de caixa cada vez mais rápidas e fortes
+    let t = t0, i = 0;
+    while (t < end) {
+      const p = (t - t0) / dur;
+      const n = noise(a), bp = a.createBiquadFilter(), g = a.createGain();
+      bp.type = "bandpass"; bp.frequency.value = 1900 + p * 600; bp.Q.value = 0.9;
+      const v = (0.05 + 0.3 * p * p) * (i % 2 ? 0.8 : 1);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.07);
+      n.connect(bp).connect(g).connect(master); n.start(t, Math.random()); n.stop(t + 0.08); nodes.push(n);
+      t += 0.13 - 0.085 * Math.pow(p, 0.7); i++;
+    }
+    // grave pulsante (Ré) com filtro abrindo
+    const lp = a.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.setValueAtTime(260, t0); lp.frequency.exponentialRampToValueAtTime(1400, end);
+    const dg = a.createGain(); dg.gain.setValueAtTime(0.0001, t0); dg.gain.exponentialRampToValueAtTime(0.11, t0 + 1.2); dg.gain.linearRampToValueAtTime(0.16, end);
+    const trem = a.createGain(); trem.gain.value = 0.6;
+    const lfo = a.createOscillator(), lfoG = a.createGain(); lfo.frequency.setValueAtTime(3, t0); lfo.frequency.linearRampToValueAtTime(9, end); lfoG.gain.value = 0.4;
+    lfo.connect(lfoG).connect(trem.gain);
+    [73.42, 110, 73.42 * 1.005].forEach((f) => { const o = a.createOscillator(); o.type = "sawtooth"; o.frequency.value = f; o.connect(lp); o.start(t0); o.stop(end + 0.3); nodes.push(o); });
+    lp.connect(trem).connect(dg).connect(master); lfo.start(t0); lfo.stop(end + 0.3); nodes.push(lfo);
+    // nota de tensão subindo (Ré4 → Lá4), quase imperceptível no começo
+    const sg = a.createGain(); sg.gain.setValueAtTime(0.0001, t0); sg.gain.exponentialRampToValueAtTime(0.05, end);
+    [1, 1.5].forEach((m) => { const o = a.createOscillator(); o.type = "triangle"; o.frequency.setValueAtTime(293.66 * m, t0); o.frequency.exponentialRampToValueAtTime(440 * m, end); o.connect(sg); o.start(t0); o.stop(end + 0.3); nodes.push(o); });
+    sg.connect(master);
+    // tímpano de abertura
+    boom(a, t0, 0.35);
+    return () => {
+      const now = a.currentTime;
+      master.gain.cancelScheduledValues(now); master.gain.setValueAtTime(master.gain.value, now); master.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+      nodes.forEach((n) => { try { n.stop(now + 0.1); } catch {} });
+    };
+  };
+
+  function boom(a, t, v = 0.6) {
+    const o = a.createOscillator(), g = a.createGain();
+    o.type = "sine"; o.frequency.setValueAtTime(110, t); o.frequency.exponentialRampToValueAtTime(48, t + 0.5);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.4);
+    o.connect(g).connect(out(a)); o.start(t); o.stop(t + 1.5);
+  }
+  /** Parada da roleta: tímpano + prato. */
+  const impact = () => {
+    const a = audio(); if (!a) return;
+    const t = a.currentTime + 0.01;
+    boom(a, t, 0.8);
+    const n = noise(a), hp = a.createBiquadFilter(), g = a.createGain();
+    hp.type = "highpass"; hp.frequency.value = 5200;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.35, t + 0.005); g.gain.exponentialRampToValueAtTime(0.0001, t + 2.6);
+    n.connect(hp).connect(g).connect(out(a)); n.start(t); n.stop(t + 2.7);
+  };
+  /** Revelação do ganhador: fanfarra de metais (tã-tã-tã-tããã) com acorde e brilho de sinos. */
   const fanfare = () => {
     const a = audio(); if (!a) return;
-    const t0 = a.currentTime;
-    const notes = [[587.33, 0], [739.99, 0.09], [880, 0.18], [1174.66, 0.3], [1479.98, 0.3], [1760, 0.3]];
-    notes.forEach(([f, d]) => {
-      ["sine", "triangle"].forEach((type, k) => {
-        const o = a.createOscillator(), g = a.createGain();
-        o.type = type; o.frequency.value = f * (k ? 2 : 1);
-        const t = t0 + d, len = d >= 0.3 ? 2.2 : 0.5;
-        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(k ? 0.04 : 0.14, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
-        o.connect(g).connect(a.destination); o.start(t); o.stop(t + len + 0.05);
-      });
+    const t0 = a.currentTime + 0.03;
+    const brass = (f, t, len, v) => {
+      const lp = a.createBiquadFilter(), g = a.createGain();
+      lp.type = "lowpass"; lp.Q.value = 2;
+      lp.frequency.setValueAtTime(700, t); lp.frequency.exponentialRampToValueAtTime(3200, t + 0.06); lp.frequency.exponentialRampToValueAtTime(1600, t + Math.min(len, 0.5));
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.03); g.gain.setValueAtTime(v * 0.85, t + len * 0.7); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
+      const vib = a.createOscillator(), vg = a.createGain(); vib.frequency.value = 5.5; vg.gain.value = len > 0.5 ? f * 0.006 : 0;
+      vib.connect(vg);
+      [1, 1.004].forEach((d) => { const o = a.createOscillator(); o.type = "sawtooth"; o.frequency.value = f * d; vg.connect(o.frequency); o.connect(lp); o.start(t); o.stop(t + len + 0.05); });
+      vib.start(t); vib.stop(t + len + 0.05);
+      lp.connect(g).connect(out(a));
+    };
+    // tã-tã-tã (Lá) … tããã (Ré maior)
+    [0, 0.15, 0.3].forEach((d) => brass(440, t0 + d, 0.13, 0.09));
+    [[587.33, 0.1], [739.99, 0.07], [880, 0.07], [293.66, 0.08]].forEach(([f, v]) => brass(f, t0 + 0.46, 1.9, v));
+    boom(a, t0 + 0.46, 0.5);
+    // brilho de sinos
+    [1174.66, 1479.98, 1760, 2349.32, 2959.96].forEach((f, k) => {
+      const o = a.createOscillator(), g = a.createGain(), t = t0 + 0.6 + k * 0.07;
+      o.type = "sine"; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.06, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
+      o.connect(g).connect(out(a)); o.start(t); o.stop(t + 1.7);
     });
   };
 
@@ -377,6 +455,7 @@ textarea { flex: 1; min-height: 120px; resize: none; background: rgba(0, 0, 0, .
     target += turns * TAU;
     const start = rot, dur = reduce ? 2500 : 5000 + rand() * 1500, t0 = performance.now();
     spinning = true; lastIdx = idxAtPointer();
+    const stopSus = suspense(dur / 1000);
     $("hint").textContent = "Girando…";
     // curva cubic-bezier(.12,.08,.04,1): arrancada suave e desaceleração longa e contínua
     const bez = (p1x, p1y, p2x, p2y) => {
@@ -394,7 +473,7 @@ textarea { flex: 1; min-height: 120px; resize: none; background: rgba(0, 0, 0, .
       pointerKick *= 0.86;
       draw();
       if (t < 1) requestAnimationFrame(step);
-      else { spinning = false; pointerKick = 0; draw(); setTimeout(() => showWinner(winner), 450); }
+      else { spinning = false; pointerKick = 0; draw(); stopSus(); impact(); setTimeout(() => showWinner(winner), 450); }
     };
     requestAnimationFrame(step);
   }
