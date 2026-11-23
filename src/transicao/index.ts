@@ -2,6 +2,7 @@
 import React from "react";
 import { Composition, registerRoot } from "remotion";
 import { TRANSICAO_DUR, TransicaoCI200, TransicaoCI200Previa } from "./TransicaoCI200";
+import { LAMINAS_DUR, TransicaoLaminas, TransicaoLaminasPrevia } from "./TransicaoLaminas";
 
 const c = (id: string, component: React.FC, d: number, w: number, h: number) => React.createElement(Composition, { id, component, durationInFrames: d, fps: 30, width: w, height: h });
 const Root: React.FC = () =>
@@ -11,5 +12,8 @@ const Root: React.FC = () =>
     c("TransicaoCI200", TransicaoCI200, TRANSICAO_DUR, 1920, 1080),
     c("TransicaoCI200Vertical", TransicaoCI200, TRANSICAO_DUR, 1080, 1920),
     c("TransicaoCI200Previa", TransicaoCI200Previa, TRANSICAO_DUR + 50, 1920, 1080),
+    c("TransicaoLaminas", TransicaoLaminas, LAMINAS_DUR, 1920, 1080),
+    c("TransicaoLaminasVertical", TransicaoLaminas, LAMINAS_DUR, 1080, 1920),
+    c("TransicaoLaminasPrevia", TransicaoLaminasPrevia, LAMINAS_DUR + 60, 1920, 1080),
   );
 registerRoot(Root);
