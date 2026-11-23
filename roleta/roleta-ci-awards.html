@@ -369,13 +369,13 @@ textarea { flex: 1; min-height: 120px; resize: none; background: rgba(0, 0, 0, .
     const seg = (Math.PI * 2) / n;
     const u = 0.15 + rand() * 0.7;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const turns = reduce ? 2 : 6 + Math.floor(rand() * 3);
+    const turns = reduce ? 2 : 5 + Math.floor(rand() * 2);
     // gira no sentido horário até o ângulo em que a fatia sorteada fica sob o ponteiro
     const TAU = Math.PI * 2;
     let target = -Math.PI / 2 - (winner + u) * seg;
     target = rot + ((((target - rot) % TAU) + TAU) % TAU);
     target += turns * TAU;
-    const start = rot, dur = reduce ? 2500 : 7000 + rand() * 1500, t0 = performance.now();
+    const start = rot, dur = reduce ? 2500 : 5000 + rand() * 1500, t0 = performance.now();
     spinning = true; lastIdx = idxAtPointer();
     $("hint").textContent = "Girando…";
     // curva cubic-bezier(.12,.08,.04,1): arrancada suave e desaceleração longa e contínua
